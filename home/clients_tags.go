@@ -3,7 +3,7 @@ package home
 var clientTags = []string{
 	"device_audio",
 	"device_gameconsole",
-	"device_nas",
+	"device_nas", // Network-attached Storage
 	"device_other",
 	"device_pc",
 	"device_phone",
