@@ -44,7 +44,6 @@ class ClientsTable extends Component {
         } else {
             this.handleFormAdd(config);
         }
-        this.props.getStats();
     };
 
     getOptionsWithLabels = options => (
