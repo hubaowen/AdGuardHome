@@ -292,7 +292,10 @@ func handleFilteringConfig(w http.ResponseWriter, r *http.Request) {
 }
 
 type checkHostResp struct {
-	Filtered bool `json:"filtered"`
+	Reason    string `json:"reason"`
+	FilterURL string `json:"filter_url"`
+	Rule      string `json:"rule"`
+	SvcName   string `json:"service_name"`
 }
 
 func handleCheckHost(w http.ResponseWriter, r *http.Request) {
@@ -308,7 +311,11 @@ func handleCheckHost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	resp := checkHostResp{}
-	resp.Filtered = result.IsFiltered
+	resp.Reason = result.Reason.String()
+	f := filterFindByID(result.FilterID)
+	resp.FilterURL = f.URL
+	resp.Rule = result.Rule
+	resp.SvcName = result.ServiceName
 	js, err := json.Marshal(resp)
 	if err != nil {
 		httpError(w, http.StatusInternalServerError, "json encode: %s", err)
@@ -320,13 +327,13 @@ func handleCheckHost(w http.ResponseWriter, r *http.Request) {
 
 // RegisterFilteringHandlers - register handlers
 func RegisterFilteringHandlers() {
-	httpRegister(http.MethodGet, "/control/filtering/status", handleFilteringStatus)
-	httpRegister(http.MethodPost, "/control/filtering/config", handleFilteringConfig)
-	httpRegister(http.MethodPost, "/control/filtering/add_url", handleFilteringAddURL)
-	httpRegister(http.MethodPost, "/control/filtering/remove_url", handleFilteringRemoveURL)
-	httpRegister(http.MethodPost, "/control/filtering/set_url", handleFilteringSetURL)
-	httpRegister(http.MethodPost, "/control/filtering/refresh", handleFilteringRefresh)
-	httpRegister(http.MethodPost, "/control/filtering/set_rules", handleFilteringSetRules)
+	httpRegister("GET", "/control/filtering/status", handleFilteringStatus)
+	httpRegister("POST", "/control/filtering/config", handleFilteringConfig)
+	httpRegister("POST", "/control/filtering/add_url", handleFilteringAddURL)
+	httpRegister("POST", "/control/filtering/remove_url", handleFilteringRemoveURL)
+	httpRegister("POST", "/control/filtering/set_url", handleFilteringSetURL)
+	httpRegister("POST", "/control/filtering/refresh", handleFilteringRefresh)
+	httpRegister("POST", "/control/filtering/set_rules", handleFilteringSetRules)
 	httpRegister("GET", "/control/filtering/check_host", handleCheckHost)
 }
 

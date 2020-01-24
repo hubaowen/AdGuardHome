@@ -1365,7 +1365,10 @@ Response:
 	200 OK
 
 	{
-	filtered: true | false
+	"reason":"FilteredBlackList",
+	"filter_url":"http://...",
+	"rule":"||doubleclick.net^",
+	"service_name": "...", // set if reason=FilteredBlockedService
 	}
 
 
