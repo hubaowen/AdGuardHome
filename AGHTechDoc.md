@@ -1366,7 +1366,7 @@ Response:
 
 	{
 	"reason":"FilteredBlackList",
-	"filter_url":"http://...",
+	"filter_id":1,
 	"rule":"||doubleclick.net^",
 	"service_name": "...", // set if reason=FilteredBlockedService
 	}

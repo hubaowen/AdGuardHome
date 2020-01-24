@@ -125,21 +125,6 @@ func filterSetProperties(url string, newf filter) int {
 	return 0
 }
 
-// Return the filter found by ID
-func filterFindByID(id int64) filter {
-	config.RLock()
-	defer config.RUnlock()
-	for _, f := range config.Filters {
-		rf := filter{
-			Enabled: f.Enabled,
-			URL:     f.URL,
-			Name:    f.Name,
-		}
-		return rf
-	}
-	return filter{}
-}
-
 // Return TRUE if a filter with this URL exists
 func filterExists(url string) bool {
 	config.RLock()

@@ -292,10 +292,10 @@ func handleFilteringConfig(w http.ResponseWriter, r *http.Request) {
 }
 
 type checkHostResp struct {
-	Reason    string `json:"reason"`
-	FilterURL string `json:"filter_url"`
-	Rule      string `json:"rule"`
-	SvcName   string `json:"service_name"`
+	Reason   string `json:"reason"`
+	FilterID int64  `json:"filter_id"`
+	Rule     string `json:"rule"`
+	SvcName  string `json:"service_name"`
 }
 
 func handleCheckHost(w http.ResponseWriter, r *http.Request) {
@@ -312,8 +312,7 @@ func handleCheckHost(w http.ResponseWriter, r *http.Request) {
 
 	resp := checkHostResp{}
 	resp.Reason = result.Reason.String()
-	f := filterFindByID(result.FilterID)
-	resp.FilterURL = f.URL
+	resp.FilterID = result.FilterID
 	resp.Rule = result.Rule
 	resp.SvcName = result.ServiceName
 	js, err := json.Marshal(resp)
